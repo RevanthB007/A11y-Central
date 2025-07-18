@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AnalyzeRequest } from '@/types';
-import { analyzeWebsite } from '@/lib/analyze';
+import { analyzeCombined } from '@/lib/analyzeCombined';
+
 export async function POST(request: NextRequest) {
-  const { url } = await request.json();
-  
   try {
-    const results = await analyzeWebsite(url);
+    const { url } = await request.json();
+    
+    if (!url) {
+      return NextResponse.json({ error: 'URL is required' }, { status: 400 });
+    }
+    
+    const results = await analyzeCombined(url);
     return NextResponse.json(results);
-  } catch (error) {
-    return NextResponse.json({ error: 'Analysis failed' }, { status: 500 });
+  } catch (error: any) {
+    console.error('API Error:', error);
+    return NextResponse.json({ 
+      error: error.message || 'Analysis failed' 
+    }, { status: 500 });
   }
 }

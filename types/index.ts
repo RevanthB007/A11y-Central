@@ -1,4 +1,4 @@
-import UnlabelledFrameSelector from '@axe-core/puppeteer';
+// types/index.ts
 // Possible values for impact in violations
 export type ImpactValue = 'minor' | 'moderate' | 'serious' | 'critical';
 
@@ -11,6 +11,20 @@ export interface analyzeWebsiteParams {
   url: string;
 }
 
+// Custom violation interface (simplified from axe-core Result)
+export interface ViolationResult {
+  id: string;
+  impact: ImpactValue | null | undefined;
+  description: string;
+  help: string;
+  helpUrl: string;
+  nodes: Array<{
+    target: any;
+    html: string;
+    failureSummary: string | undefined;
+  }>;
+}
+
 // Analysis result structure
 export interface AnalysisResult {
   url: string;
@@ -21,18 +35,7 @@ export interface AnalysisResult {
     incomplete: number;
     inapplicable: number;
   };
-  violations: Array<{
-    id: string;
-    impact: ImpactValue | null | undefined; // Can be 'minor', 'moderate', 'serious', 'critical', null, or undefined
-    description: string;
-    help: string;
-    helpUrl: string;
-    nodes: Array<{
-      target: UnlabelledFrameSelector; // Use the exact type from axe-core
-      html: string;
-      failureSummary: string | undefined; // Can be undefined
-    }>;
-  }>;
+  violations: ViolationResult[]; 
   passes: number;
   incomplete: number;
 }
