@@ -17,7 +17,10 @@ function Analyze() {
   const componentRef = useRef(null);
   const [httpResults, setHttpResults] = useState(null)
   const [linkStatus, setLinkStatus] = useState(null)
-
+  const [showAllInternal, setShowAllInternal] = useState(false);
+  const [showAllExternal, setShowAllExternal] = useState(false);
+  const [showAllImages, setShowAllImages] = useState(false);
+  const [showAllSlow, setShowAllSlow] = useState(false);
 
   useEffect(() => {
     const url = searchParams.get("url")
@@ -1042,7 +1045,6 @@ function Analyze() {
 
         {linkStatus && (
           <div className="bg-gray-900/50 rounded-lg shadow-xl border border-gray-700 print-break">
-            {/* Header Section */}
             <div className="px-6 py-4 border-b border-gray-700">
               <div className="flex items-center justify-between">
                 <div>
@@ -1063,7 +1065,6 @@ function Analyze() {
             </div>
 
             <div className="p-6 space-y-6">
-              {/* Summary Cards */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="p-4 rounded border bg-green-900/20 border-green-500/30">
                   <div className="flex items-center justify-between mb-2">
@@ -1105,8 +1106,6 @@ function Analyze() {
                   </div>
                 </div>
               </div>
-
-              {/* Link Type Distribution */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="text-center p-3 bg-gray-800/30 rounded border border-gray-600">
                   <div className="text-xl font-bold text-blue-300">{linkStatus.summary?.internalLinks || 0}</div>
@@ -1141,10 +1140,8 @@ function Analyze() {
                 </div>
               </div>
 
-              {/* Broken Internal Links */}
               {linkStatus.brokenInternal && linkStatus.brokenInternal.length > 0 && (() => {
-                const [showAllInternal, setShowAllInternal] = useState(false)
-                const displayedInternal = showAllInternal ? linkStatus.brokenInternal : linkStatus.brokenInternal.slice(0, 5)
+                
 
                 return (
                   <div className="space-y-3">
@@ -1205,7 +1202,6 @@ function Analyze() {
                 )
               })()}
 
-              {/* Broken External Links */}
               {linkStatus.brokenExternal && linkStatus.brokenExternal.length > 0 && (() => {
                 const [showAllExternal, setShowAllExternal] = useState(false)
                 const displayedExternal = showAllExternal ? linkStatus.brokenExternal : linkStatus.brokenExternal.slice(0, 5)
@@ -1273,8 +1269,6 @@ function Analyze() {
                   </div>
                 )
               })()}
-
-              {/* Broken Images */}
               {linkStatus.brokenImages && linkStatus.brokenImages.length > 0 && (() => {
                 const [showAllImages, setShowAllImages] = useState(false)
                 const displayedImages = showAllImages ? linkStatus.brokenImages : linkStatus.brokenImages.slice(0, 5)
@@ -1338,7 +1332,6 @@ function Analyze() {
                 )
               })()}
 
-              {/* Slow Links */}
               {linkStatus.slowLinks && linkStatus.slowLinks.length > 0 && (() => {
                 const [showAllSlow, setShowAllSlow] = useState(false)
                 const displayedSlow = showAllSlow ? linkStatus.slowLinks : linkStatus.slowLinks.slice(0, 5)
@@ -1402,7 +1395,6 @@ function Analyze() {
                 )
               })()}
 
-              {/* Success Message - No Issues */}
               {linkStatus.summary &&
                 linkStatus.summary.brokenLinks === 0 &&
                 linkStatus.summary.slowLinks === 0 &&
@@ -1417,8 +1409,6 @@ function Analyze() {
                     </p>
                   </div>
                 )}
-
-              {/* No Links Found */}
               {linkStatus.summary && linkStatus.summary.totalLinks === 0 && linkStatus.summary.totalImages === 0 && (
                 <div className="bg-gray-800/30 border border-gray-600 rounded-lg p-6 text-center">
                   <Globe className="w-8 h-8 text-gray-400 mx-auto mb-2" />
