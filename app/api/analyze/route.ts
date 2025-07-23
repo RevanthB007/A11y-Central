@@ -35,17 +35,4 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// export async function GET(request: NextRequest) {
 
-//   try {
-//     await connectToDatabase();
-//     const results = await AnalysisResult.find();
-//     return NextResponse.json(results, { status: 200 });
-//   } catch (error: any) {
-//     console.error('API Error:', error);
-//     console.error('Error stack:', error.stack);
-//     return NextResponse.json({
-//       error: error.message || 'Analysis failed'
-//     }, { status: 500 });
-//   }
-// }
